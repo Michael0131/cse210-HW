@@ -5,20 +5,22 @@ class Program
     static void Main(string[] args)
     {
         //Console.WriteLine("Hello Prep5 World!");
+        DisplayWelcomeMessage();
 
-        DisplayWelcomeMesage();
-        PromptUserName();
-        PromptUserNumber();
-        DisplayResult();
+        string user_name = PromptUserName();
+        int user_number = PromptUserNumber();
+
+        int squared_number = SquareNumber(user_number);
+
+        DisplayResult(user_name, squared_number);
     
 
     }
     static int PromptUserNumber()
     {
-        Console.Write("PLease enter your favorite number: ")
-        string number = Console.ReadLine();
-        int number = int.parse(Console.ReadLine());
-        retun number;
+        Console.Write("PLease enter your favorite number: ");
+        int number = int.Parse(Console.ReadLine());
+        return number;
     }
 
     static void DisplayWelcomeMessage()
@@ -29,7 +31,7 @@ class Program
     static int SquareNumber(int number)
     {
         int square = number * number;
-        return square
+        return square;
     }
     static string PromptUserName()
     {
@@ -42,7 +44,7 @@ class Program
     
     static void DisplayResult(string name, int square)
     {
-        Console.WriteLine(name, + "the square of your number is " + square);
+        Console.WriteLine($"{name}, the square of your number is " + square + ".");
         // return 
     }
 
