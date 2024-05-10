@@ -1,5 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
+//using System.Runtime.CompilerServices;
 
 public class Resume
 {
@@ -16,7 +16,7 @@ public class Resume
 
         foreach (Job job in _jobs)
         {
-            job.Display();
+            job.display();
         }
     }
 
