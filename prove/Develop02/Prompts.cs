@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 class PromptJournal
 {
-    // Create an array of prompts as strings
     private string[] PromptList = new string[]
     {
         "What did you have for breakfast?",
@@ -14,32 +13,27 @@ class PromptJournal
         // Add more prompts here
     };
 
-    // List to store the answers to prompts
     private List<string> answers = new List<string>();
 
-    // Random object for generating random numbers
-    private Random random = new Random();
-
-    // Method to answer prompts
     public void AnswerPrompts(int promptCount)
     {
+        // Limit the prompt count to the available number of prompts
+        promptCount = Math.Min(promptCount, PromptList.Length);
+
         // Loop to prompt the user for answers to the specified number of prompts
         for (int i = 0; i < promptCount; i++)
         {
-            // Generate a random index within the length of PromptList
-            int index = random.Next(PromptList.Length);
-            
             // Display the prompt to the user
-            Console.WriteLine($"Prompt {i + 1}: {PromptList[index]}");
+            Console.WriteLine($"Prompt {i + 1}: {PromptList[i]}");
             
             // Prompt the user for an answer and add it to the list of answers
             Console.Write("Your answer: ");
             string answer = Console.ReadLine();
+            
             answers.Add(answer);
         }
     }
 
-    // Method to display journal entries
     public void DisplayJournal()
     {
         // Display journal entries
