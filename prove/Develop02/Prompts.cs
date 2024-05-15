@@ -1,56 +1,54 @@
 using System;
-using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
 
-public class Prompts
+class PromptJournal
 {
-    //make a string array to call to
-    String[] promptList = new string[]
+    // Create an array of prompts as strings
+    private string[] PromptList = new string[]
     {
         "What did you have for breakfast?",
         "Did you do anything fun today?",
         "Did you meet anyone new today?",
-        "Did you particapte in class or go to work today?",
-        "Did you do anthing you havent doen before today?",
-        //make more this is a test           
+        "Did you participate in class or go to work today?",
+        "Did you do anything you haven't done before today?",
+        // Add more prompts here
     };
 
-    //ask user how many promtps they would like to answer
-    Console.Write("How many questions do you want to answer? ");
-    int promptCount = int.Parse(Console.ReadLine());
-    Console.WriteLine("Working");
+    // List to store the answers to prompts
+    private List<string> answers = new List<string>();
 
+    // Random object for generating random numbers
+    private Random random = new Random();
 
-    // store user response as list to be displayed later.
-
-    List<string> answers = new List<string>();
-
-    //create random for generation
-
-    Random random = new Random();
-
-    // create a loop to print the number of prompts the user wants to answer
-
-    for (int i = 0; i < promptCount; i++)
+    // Method to answer prompts
+    public void AnswerPrompts(int promptCount)
     {
-        //generate random location within the lenght of prompt list
-
-        int index = random.Next(promptList.Length);
-
-        // prompt user with the prompt and store answer
-
-        Console.WriteLine($"Promt {i + 1}: {promptList[index]}");
-        Console.Write("Answer");
-        string answer = Console.ReadLine();
-
-        answers.Add(answer);
+        // Loop to prompt the user for answers to the specified number of prompts
+        for (int i = 0; i < promptCount; i++)
+        {
+            // Generate a random index within the length of PromptList
+            int index = random.Next(PromptList.Length);
+            
+            // Display the prompt to the user
+            Console.WriteLine($"Prompt {i + 1}: {PromptList[index]}");
+            
+            // Prompt the user for an answer and add it to the list of answers
+            Console.Write("Your answer: ");
+            string answer = Console.ReadLine();
+            answers.Add(answer);
+        }
     }
-    // Output the answers for journaling
-    Console.WriteLine("\nAnswers for Journaling:");
-    for (int i = 0; i < promptCount; i++)
+
+    // Method to display journal entries
+    public void DisplayJournal()
     {
-        Console.WriteLine($"Prompt {i + 1}: {answers[i]}");
+        // Display journal entries
+        Console.WriteLine("\nJournal Entries:");
+        for (int i = 0; i < answers.Count; i++)
+        {
+            // Print each prompt along with its corresponding answer
+            Console.WriteLine($"Prompt {i + 1}: {PromptList[i]}");
+            Console.WriteLine($"Answer: {answers[i]}\n");
+        }
     }
-       
-
-    
 }
