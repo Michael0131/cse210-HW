@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 class PromptJournal
 {
@@ -14,13 +15,14 @@ class PromptJournal
     };
 
     private List<string> answers = new List<string>();
+    private List<string> entries = new List<string>();
 
     public void AnswerPrompts(int promptCount)
     {
-        // Limit the prompt count to the available number of prompts
+        // make is so user can only put in the max number of prompts available
         promptCount = Math.Min(promptCount, PromptList.Length);
 
-        // Loop to prompt the user for answers to the specified number of prompts
+        // Loop to prompt the user for answers then assign it to the prompt
         for (int i = 0; i < promptCount; i++)
         {
             // Display the prompt to the user
@@ -44,5 +46,23 @@ class PromptJournal
             Console.WriteLine($"Prompt {i + 1}: {PromptList[i]}");
             Console.WriteLine($"Answer: {answers[i]}\n");
         }
+    }
+    public void LoadEntries(string entriesData)
+    {
+        entries.Clear();
+        string[] loadedEntries = entriesData.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        entries.AddRange(loadedEntries);
+        Console.WriteLine("Entries loaded successfully.");
+    }
+
+    public string SaveEntries()
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (string entry in entries)
+        {
+            sb.AppendLine(entry);
+        }
+        Console.WriteLine("Entries prepared for saving.");
+        return sb.ToString();
     }
 }
