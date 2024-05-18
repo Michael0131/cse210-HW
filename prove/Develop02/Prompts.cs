@@ -31,6 +31,7 @@ class PromptJournal
             // Prompt the user for an answer and add it to the list of answers
             Console.Write("Your answer: ");
             string answer = Console.ReadLine();
+            string entry = $"{DateTime.Now}: {PromptList[i]} - {answer}";
             
             answers.Add(answer);
         }
@@ -47,22 +48,40 @@ class PromptJournal
             Console.WriteLine($"Answer: {answers[i]}\n");
         }
     }
-    public void LoadEntries(string entriesData)
+    public void SaveEntries(string fileName)
+    
     {
-        entries.Clear();
-        string[] loadedEntries = entriesData.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-        entries.AddRange(loadedEntries);
-        Console.WriteLine("Entries loaded successfully.");
+        File.WriteAllLines(fileName, entries);
+        Console.WriteLine("Your Entries were saved successfullly!");
+        
     }
-
-    public string SaveEntries()
+    public void LoadEntries(string fileName)
     {
-        StringBuilder sb = new StringBuilder();
-        foreach (string entry in entries)
+        if (File.Exists(fileName))
         {
-            sb.AppendLine(entry);
+            entries.Clear();
+            string[] loadedEntries = File.ReadAllLines(fileName);
+            entries.AddRange(loadedEntries);
+            Console.WriteLine("Entries loaded successfully.");
         }
-        Console.WriteLine("Entries prepared for saving.");
-        return sb.ToString();
+        else
+        {
+            Console.WriteLine("File does not exist");
+        }
     }
+    // public void DisplayJournal()
+    // {
+    //     if (entries.Count == 0)
+    //     {
+    //         Console.WriteLine("No entries to display.");
+    //         return;
+    //     }
+        
+    //     Console.WriteLine("\nJournal Entries:");
+    //     foreach (var entry in entries)
+    //     {
+    //         Console.WriteLine(entry);
+    //     }
+    // }
+
 }

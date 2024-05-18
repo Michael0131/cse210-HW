@@ -63,15 +63,15 @@ class Menu
     }
     private void LoadEntries()
     {
-        Console.Write("Enter the entries to load (use \\n to separate entries): ");
-        string entriesData = Console.ReadLine().Replace("\\n", Environment.NewLine);
-        journal.LoadEntries(entriesData);
+        Console.Write("Enter the file name to load: ");
+        string fileName = Console.ReadLine();
+        journal.LoadEntries(fileName);
     }
     public void SaveEntries()
     {
-        string entriesData = journal.SaveEntries();
-        Console.WriteLine("Entries to save:");
-        Console.WriteLine(entriesData);
+        Console.Write("Enter the name you want for the file to be saved too:  ");
+        string fileName = Console.ReadLine();
+        journal.SaveEntries(fileName);
 
     }
     public void Quit()
