@@ -1,0 +1,6 @@
+Resources used:
+I used these resources to figure out how to shuffle my prompts without them being reused before all prompts have been answered already.
+https://forum.unity.com/threads/clever-way-to-shuffle-a-list-t-in-one-line-of-c-code.241052/
+https://www.wolfsys.net/blog/shuffle-list-with-linq
+https://codereview.stackexchange.com/questions/256079/c-linq-techniques-for-avoiding-repeating-same-pieces-of-code
+https://stackoverflow.com/questions/2344098/c-sharp-how-to-create-a-guid-value
