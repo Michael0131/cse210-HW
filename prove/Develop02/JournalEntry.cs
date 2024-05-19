@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-
 public class JournalEntry
 {
     public string Prompt { get; set; }
@@ -12,6 +8,6 @@ public class JournalEntry
     {
         Prompt = prompt;
         Answer = answer;
-        Timestamp = DateTime.Now;
+        Timestamp = timestamp;
     }
-}  
+}
