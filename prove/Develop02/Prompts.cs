@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.Linq;
+using System.Text;
 
 class PromptJournal
 {
@@ -41,7 +42,8 @@ class PromptJournal
             Console.Write("Your answer: ");
             string answer = Console.ReadLine();
             
-            answers.Add(answer);
+            // answers.Add(answer);
+            journalEntries.Add(new JournalEntry(PromptList[i], answer, DateTime.Now));
         }
     }
 
@@ -49,29 +51,86 @@ class PromptJournal
     {
         // Display journal entries
         Console.WriteLine("\nJournal Entries:");
-        for (int i = 0; i < answers.Count; i++)
+        foreach (var entry in journalEntries)
         {
             // Print each prompt along with its corresponding answer
-            Console.WriteLine($"Prompt {i + 1}: {PromptList[i]}");
-            Console.WriteLine($"Answer: {answers[i]}\n");
+            Console.WriteLine($"Prompt: {entry.Prompt}");
+            Console.WriteLine($"Answer: {entry.Answer}\n");
+            Console.WriteLine($"Timestamp: {entry.Timestamp}\n");
+
         }
     }
-    public void LoadEntries(string entriesData)
+    public void LoadEntries(string fileName)
+{
+    try
     {
-        entries.Clear();
-        string[] loadedEntries = entriesData.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-        entries.AddRange(loadedEntries);
+        string[] lines = File.ReadAllLines(fileName);
+        foreach (string line in lines)
+        {
+            string[] parts = line.Split(',');
+
+            if (parts.Length >= 2) // Ensure there are at least two parts (prompt and answer)
+            {
+                string prompt = parts[0];
+                string answer = parts[1];
+                
+                // Always use DateTime.Now for timestamp when loading entries
+                DateTime timestamp = DateTime.Now;
+
+                if (parts.Length >= 3 && DateTime.TryParse(parts[2], out DateTime parsedTimestamp))
+                {
+                    timestamp = parsedTimestamp; // Use parsed timestamp if available
+                }
+
+                journalEntries.Add(new JournalEntry(prompt, answer, timestamp));
+            }
+        }
         Console.WriteLine("Entries loaded successfully.");
     }
-
-    public string SaveEntries()
+    catch (Exception ex)
     {
-        StringBuilder sb = new StringBuilder();
-        foreach (string entry in entries)
-        {
-            sb.AppendLine(entry);
-        }
-        Console.WriteLine("Entries prepared for saving.");
-        return sb.ToString();
+        Console.WriteLine($"Error loading entries: {ex.Message}");
     }
+}
+    // public void LoadEntries(string fileNAme)
+    // {
+    //     journalEntries.Clear();
+    //     try
+    //     {
+    //         string[] lines =File.ReadAllLines(fileNAme);
+    //         foreach (string line in lines)
+    //         {
+    //             string[] parts = line.Split("|");
+    //             if (parts.Length == 2);
+    //             {
+    //                 journalEntries.Add(new JournalEntry(parts[0], parts[1]));
+    //             }
+    //         }
+    //         Console.WriteLine("Your entries have loaded successfully! ");            
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Console.WriteLine($"There was an error loading your entries: {ex.Message} ");
+    //     }
+    // }
+
+    public void SaveEntries(string fileName)
+    {
+        try
+        {
+            using (StreamWriter writer = new StreamWriter(fileName))
+            {
+                foreach (var entry in journalEntries)
+                {
+                    writer.WriteLine($"{entry.Prompt}|{entry.Answer}");
+                }
+            }
+            Console.WriteLine("Your entries saved successfully! ");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"There was an error saving your entries: {ex.Message}");
+        }
+    }
+
 }

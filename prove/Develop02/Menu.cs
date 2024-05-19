@@ -61,18 +61,18 @@ class Menu
         journal.DisplayJournal();
 
     }
-    private void LoadEntries()
-    {
-        Console.Write("Enter the entries to load (use \\n to separate entries): ");
-        string entriesData = Console.ReadLine().Replace("\\n", Environment.NewLine);
-        journal.LoadEntries(entriesData);
-    }
     public void SaveEntries()
     {
-        string entriesData = journal.SaveEntries();
-        Console.WriteLine("Entries to save:");
-        Console.WriteLine(entriesData);
-
+        Console.Write("Enter the file name to save entries to: ");
+        string fileName = Console.ReadLine();
+        journal.SaveEntries(fileName);
+    }
+    private void LoadEntries()
+    {
+        Console.Write("Enter the file name to load entries from: ");
+        string fileName = Console.ReadLine();
+        journal.LoadEntries(fileName);
+        journal.DisplayJournal();
     }
     public void Quit()
     {
