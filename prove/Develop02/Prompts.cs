@@ -24,7 +24,6 @@ class PromptJournal
     
 
     private List<string> answers = new List<string>();
-<<<<<<< HEAD
     private List<string> entries = new List<string>();
 
     public void AnswerPrompts(int promptCount)
@@ -64,9 +63,6 @@ class PromptJournal
         entries.AddRange(loadedEntries);
         Console.WriteLine("Entries loaded successfully.");
     }
-=======
-    private List<string> usedPrompts = new List<string>();
->>>>>>> 32c40ed439c0d14e8ff069ebee5a86ce756aae26
 
     public string SaveEntries()
     {
