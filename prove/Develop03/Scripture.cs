@@ -11,7 +11,9 @@ public class Scripture
 
     // Constructor to initialize the scripture
     public Scripture(Reference reference, string text)
+
     {
+        // I kept hvaing issues where the code would break when punctuation was tied to the word in my list, this is a solution i used from AI
         _reference = reference;
         _words = text.Split(new[] { ' ', ',', '.', ';', ':', '!', '?' }, StringSplitOptions.RemoveEmptyEntries)
                      .Select(word => new Word(word)).ToList();
@@ -56,15 +58,16 @@ public class Scripture
 
     // Check if the user's guess for hidden words is correct
     public bool CheckGuess(string guess)
+
     {
+        // I was given the solution to split guess by a space, 
+        // I was going to make it print out word 1: word 2: etc, but AI gave this better solution.
         string[] guessedWords = guess.Split(' ');
 
         if (guessedWords.Length != _additionalHiddenWords.Count)
         {
             return false;
         }
-
-        int hiddenWordIndex = 0;
         foreach (var word in _originalHiddenWords)
         {
             if (!word.IsHidden)
