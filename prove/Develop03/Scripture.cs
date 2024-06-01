@@ -2,97 +2,71 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Scripture
+class Scripture
 {
-    private Reference _reference; // Holds the scripture reference
-    private List<Word> _words; // Holds the list of words in the scripture
-    private List<Word> _originalHiddenWords; // Holds the list of originally hidden words
-    private List<Word> _additionalHiddenWords; // Holds the list of additional hidden words
+    private Reference reference;
+    private string text;
+    private List<string> hiddenWords;
 
-    // Constructor to initialize the scripture
     public Scripture(Reference reference, string text)
-
     {
-        // I kept hvaing issues where the code would break when punctuation was tied to the word in my list, this is a solution i used from AI
-        _reference = reference;
-        _words = text.Split(new[] { ' ', ',', '.', ';', ':', '!', '?' }, StringSplitOptions.RemoveEmptyEntries)
-                     .Select(word => new Word(word)).ToList();
-        _originalHiddenWords = new List<Word>();
-        _additionalHiddenWords = new List<Word>();
+        this.reference = reference;
+        this.text = text;
+        hiddenWords = new List<string>();
     }
 
-    // Display the scripture with hidden words as blanks
     public void Display()
     {
-        Console.WriteLine(_reference.ToString());
-        foreach (var word in _words)
+        string displayedText = text;
+
+        // Replace hidden words with underscores
+        foreach (string word in hiddenWords)
         {
-            Console.Write(word.GetDisplayText() + " ");
+            displayedText = displayedText.Replace(word, new string('_', word.Length));
         }
-        Console.WriteLine();
+
+        Console.WriteLine($"{reference}:");
+        Console.WriteLine(displayedText);
     }
 
-    // Hide a few random words
     public void HideRandomWords(int count)
     {
-        Random random = new Random();
-        int wordsToHide = Math.Min(count, _words.Count(word => !word.IsHidden)); // Determine the number of words to hide
-
-        for (int i = 0; i < wordsToHide; i++)
-        {
-            List<Word> visibleWords = _words.Where(word => !word.IsHidden && !_originalHiddenWords.Contains(word)).ToList();
-            if (visibleWords.Count > 0)
-            {
-                int index = random.Next(visibleWords.Count);
-                visibleWords[index].Hide();
-                _additionalHiddenWords.Add(visibleWords[index]); // Add to the list of additional hidden words
-            }
-        }
+        List<string> wordsToHide = GetRandomWordsToHide(count);
+        hiddenWords.AddRange(wordsToHide);
     }
 
-    // Check if all words are hidden
+    private List<string> GetRandomWordsToHide(int count)
+    {
+        // Split the text into words
+        string[] words = text.Split(new char[] { ' ', ',', '.', ';', ':', '?', '!' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Filter out words that are already hidden
+        words = words.Where(word => !hiddenWords.Contains(word)).ToArray();
+
+        // Shuffle the words randomly
+        Random random = new Random();
+        words = words.OrderBy(word => random.Next()).ToArray();
+
+        // Take 'count' number of words from the shuffled list
+        List<string> wordsToHide = words.Take(count).ToList();
+        return wordsToHide;
+    }
+
     public bool AllWordsHidden()
     {
-        return _words.All(word => word.IsHidden);
+        // Split the text into words
+        string[] words = text.Split(new char[] { ' ', ',', '.', ';', ':', '?', '!' }, StringSplitOptions.RemoveEmptyEntries);
+
+        // Check if all words are in the hidden list
+        return words.All(word => hiddenWords.Contains(word));
     }
 
-    // Check if the user's guess for hidden words is correct
     public bool CheckGuess(string guess)
-
     {
-        // I was given the solution to split guess by a space, 
-        // I was going to make it print out word 1: word 2: etc, but AI gave this better solution.
-        string[] guessedWords = guess.Split(' ');
+        // Split the guess into words
+        string[] guessedWords = guess.Split(new char[] { ' ', ',', '.', ';', ':', '?', '!' }, StringSplitOptions.RemoveEmptyEntries);
 
-        if (guessedWords.Length != _additionalHiddenWords.Count)
-        {
-            return false;
-        }
-        foreach (var word in _originalHiddenWords)
-        {
-            if (!word.IsHidden)
-            {
-                return false;
-            }
-        }
-        foreach (var word in _additionalHiddenWords)
-        {
-            if (!word.IsHidden)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    // Reset the scripture to the original state
-    public void Reset()
-    {
-        foreach (var word in _words)
-        {
-            word.Reveal(); // Reveal all hidden words
-        }
-        _additionalHiddenWords.Clear(); // Clear the list of additional hidden words
+        // Check if all guessed words are in the hidden list
+        return guessedWords.All(word => hiddenWords.Contains(word));
     }
 }
