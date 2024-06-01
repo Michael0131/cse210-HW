@@ -9,6 +9,9 @@ public class Scripture
     private List<Word> _hiddenWords;
 
     public Scripture(Reference reference, string text)
+
+    // I got lines 14-18 from AI, I kept having issues where the code would get stuck if the user did not enter punctuation tied to the word,
+    // for example -christ, would need to be entered instead of just christ
     {
         _reference = reference;
         _words = text.Split(new[] { ' ', ',', '.', ';', ':', '!', '?' }, StringSplitOptions.RemoveEmptyEntries)

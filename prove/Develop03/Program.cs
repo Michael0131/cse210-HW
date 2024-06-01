@@ -12,9 +12,10 @@ class Program
         );
         Console.WriteLine("\nPress Enter to hide a few random words, or type 'quit' to end:");
         string userInputToHideWords = Console.ReadLine();
+        scripture.HideRandomWords(1); // Hide one words
 
 
-        bool verseCorrect = false;
+        // bool verseCorrect = false;
 
         // Main loop to run the program
         while (true)
@@ -28,6 +29,7 @@ class Program
                 string finalGuess = Console.ReadLine();
                 if (scripture.CheckFullVerse(finalGuess))
                 {
+                    Console.Clear();
                     Console.WriteLine("\nCongratulations! You correctly entered the entire verse.");
                     Thread.Sleep(5000); // Pause for 5 seconds
                     break;
@@ -43,8 +45,6 @@ class Program
             {
                 break;
             }
-
-            scripture.HideRandomWords(1); // Hide three words
             while (true)
             {
                 Console.Clear();
@@ -55,7 +55,7 @@ class Program
                 if (scripture.CheckGuess(guess))
                 {
                     Console.WriteLine("Correct! Hiding more words.");
-                    scripture.HideRandomWords(1); // Hide three more words
+                    scripture.HideRandomWords(1); // Hide one more word
                     Thread.Sleep(2000);
 
                     break;
