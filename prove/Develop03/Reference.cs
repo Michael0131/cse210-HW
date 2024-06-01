@@ -1,4 +1,4 @@
-class Reference
+public class Reference
 {
     public string Book { get; private set; }
     public int Chapter { get; private set; }

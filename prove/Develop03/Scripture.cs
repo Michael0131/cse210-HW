@@ -2,71 +2,86 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-class Scripture
+public class Scripture
 {
-    private Reference reference;
-    private string text;
-    private List<string> hiddenWords;
+    private Reference _reference;
+    private List<Word> _words;
+    private List<Word> _hiddenWords;
 
     public Scripture(Reference reference, string text)
     {
-        this.reference = reference;
-        this.text = text;
-        hiddenWords = new List<string>();
+        _reference = reference;
+        _words = text.Split(new[] { ' ', ',', '.', ';', ':', '!', '?' }, StringSplitOptions.RemoveEmptyEntries)
+                     .Select(word => new Word(word)).ToList();
+        _hiddenWords = new List<Word>();
     }
 
     public void Display()
     {
-        string displayedText = text;
-
-        // Replace hidden words with underscores
-        foreach (string word in hiddenWords)
+        Console.WriteLine(_reference.ToString());
+        foreach (var word in _words)
         {
-            displayedText = displayedText.Replace(word, new string('_', word.Length));
+            Console.Write(word.GetDisplayText() + " ");
         }
-
-        Console.WriteLine($"{reference}:");
-        Console.WriteLine(displayedText);
+        Console.WriteLine();
     }
 
     public void HideRandomWords(int count)
     {
-        List<string> wordsToHide = GetRandomWordsToHide(count);
-        hiddenWords.AddRange(wordsToHide);
-    }
-
-    private List<string> GetRandomWordsToHide(int count)
-    {
-        // Split the text into words
-        string[] words = text.Split(new char[] { ' ', ',', '.', ';', ':', '?', '!' }, StringSplitOptions.RemoveEmptyEntries);
-
-        // Filter out words that are already hidden
-        words = words.Where(word => !hiddenWords.Contains(word)).ToArray();
-
-        // Shuffle the words randomly
         Random random = new Random();
-        words = words.OrderBy(word => random.Next()).ToArray();
 
-        // Take 'count' number of words from the shuffled list
-        List<string> wordsToHide = words.Take(count).ToList();
-        return wordsToHide;
+        int wordsToHide = Math.Min(count, _words.Count(word => !word.IsHidden));
+
+        for (int i = 0; i < wordsToHide; i++)
+        {
+            List<Word> visibleWords = _words.Where(word => !word.IsHidden && !_hiddenWords.Contains(word)).ToList();
+            if (visibleWords.Count > 0)
+            {
+                int index = random.Next(visibleWords.Count);
+                Word wordToHide = visibleWords[index];
+                wordToHide.Hide();
+                _hiddenWords.Add(wordToHide);
+            }
+        }
     }
 
     public bool AllWordsHidden()
     {
-        // Split the text into words
-        string[] words = text.Split(new char[] { ' ', ',', '.', ';', ':', '?', '!' }, StringSplitOptions.RemoveEmptyEntries);
-
-        // Check if all words are in the hidden list
-        return words.All(word => hiddenWords.Contains(word));
+        return _words.All(word => word.IsHidden);
     }
 
     public bool CheckGuess(string guess)
     {
-        // Split the guess into words
-        string[] guessedWords = guess.Split(new char[] { ' ', ',', '.', ';', ':', '?', '!' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] guessedWords = guess.Split(' ');
 
-        // Check if all guessed words are in the hidden list
-        return guessedWords.All(word => hiddenWords.Contains(word));
+        foreach (var word in _hiddenWords)
+        {
+            if (!word.IsHidden)
+            {
+                return false;
+            }
+        }
+
+        return guessedWords.All(word => _hiddenWords.Any(hiddenWord => hiddenWord.Text == word));
+    }
+
+    public bool CheckFullVerse(string guess)
+    {
+        string[] guessedWords = guess.Split(' ');
+
+        if (guessedWords.Length != _words.Count)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < _words.Count; i++)
+        {
+            if (guessedWords[i] != _words[i].Text)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
