@@ -4,11 +4,10 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Create a base "Assignment" object
+        
         Assignment a1 = new Assignment("Michael Johnson", "Multiplication");
         Console.WriteLine(a1.GetSummary());
 
-        // Now create the derived class assignments
         MathAssignment a2 = new MathAssignment("Ashlyn Johnson", "Fractions", "8.21", "15-27");
         Console.WriteLine(a2.GetSummary());
         Console.WriteLine(a2.GetHomeworkList());
