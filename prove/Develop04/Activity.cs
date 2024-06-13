@@ -3,6 +3,7 @@ using System;
 using System.Threading;
 using System.ComponentModel;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices.Marshalling;
 public class Activity
 {
     public string ActivityName{get; set;}
@@ -29,17 +30,20 @@ public class Activity
     
     protected void DisplayWelcome(int duration)
     {
+        Console.Clear();
         Console.WriteLine($"Welcome to the {ActivityName} activity.");
         Console.WriteLine(Description);
         Console.WriteLine($"This activity will be {duration} seconds.");
-        ShowCountdown(10);
     }
 
     protected void DisplayGoodBye(int duration)
     {
+        Console.Clear();
         Console.WriteLine($"Thanks for doing the {ActivityName} activity!");
         Console.WriteLine($"You completed this activity in {duration} seconds!");
         // ShowCountdown(10);
+        Thread.Sleep(1000);
+        return;
 
     }
     protected void ShowCountdown(int seconds)
@@ -52,10 +56,9 @@ public class Activity
         Console.WriteLine("And Start!");
     }
     
-    private void ExecuteActivity(int duration)
+    public void ExecuteActivity(int duration)
     {
-        // i was taught throw new by AI
-        throw new NotImplementedException("Each activity must implement its own execution logic.");
+        Console.WriteLine($"Simulating {ActivityName} activity for {duration} seconds...");
+        System.Threading.Thread.Sleep(duration * 1000); // Simulate activity duration
     }
-
 }

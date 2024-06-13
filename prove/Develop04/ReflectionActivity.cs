@@ -12,7 +12,7 @@ public class ReflectionActivity : Activity
     {
     }
 
-    private void ExecuteReflectionActivity(int duration, string activityName)
+    private void ExecuteActivity(int duration, string activityName)
     {
         DateTime startTime = DateTime.Now;
         DateTime endTime = startTime.AddSeconds(duration);
@@ -48,7 +48,9 @@ public class ReflectionActivity : Activity
 
     public void RunReflectionActivity(int duration)
     {
-        base.RunActivity(duration);
+        DisplayWelcome(duration);
+        ExecuteActivity(duration);
+        DisplayGoodBye(duration);
     }
 
     // private void ExecuteActivity(int duration)

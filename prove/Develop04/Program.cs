@@ -36,7 +36,7 @@ class Program
             else if (choice == 2)
             {
                 int duration = GetDurationFromUser();
-                PerformReflectionExercise(duration, "Reflection Exercise");
+                PerformReflectionExercise();
             }
             else if (choice == 3)
             {
@@ -53,12 +53,13 @@ class Program
 
 
         static void PerformBreathingExercise()
-        {
-            Console.WriteLine("\nYou've chosen the Breathing Exercise.");
-            Console.WriteLine("");
-            int duration = GetDurationFromUser();
-            Console.WriteLine("");
-        }
+            {
+                Console.WriteLine("\nYou've chosen the Breathing Exercise.");
+                int duration = GetDurationFromUser();
+                BreathingActivity breathingActivity = new BreathingActivity("Breathing Exercise", "Practice deep breathing to relax.");
+                breathingActivity.RunBreathingActivity(duration);
+            }
+
     //     static void PerformReflectionExercise()
     //     {
     //         Console.WriteLine("\nYou've chosen the Reflection Exercise.");
@@ -68,20 +69,12 @@ class Program
 
 
     // }
-        static void PerformReflectionExercise(int duration, string activityName)
+        static void PerformReflectionExercise()
         {
-            DateTime startTime = DateTime.Now;
-            DateTime currentTime = DateTime.Now;
-            DateTime futureTime = startTime.AddSeconds(duration);
-            if (currentTime < futureTime)
-            {
-                Console.WriteLine($"\nYou've chosen the {activityName}.");
-                Console.WriteLine("");
-                ReflectionActivity reflectionActivity = new ReflectionActivity(activityName, "Reflect on past experiences.");
-                reflectionActivity.RunReflectionActivity(duration);
-            }
-            Console.WriteLine("Time is up...");
-            Console.WriteLine($"Your {activityName} activity is over.");
+            Console.WriteLine("\nYou've chosen the Reflection Exercise.");
+            int duration = GetDurationFromUser();
+            ReflectionActivity reflectionActivity = new ReflectionActivity("Reflection Exercise", "Reflect on past experiences.");
+            reflectionActivity.RunReflectionActivity(duration);
         }
 
 
