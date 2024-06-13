@@ -2,7 +2,8 @@ using System.Diagnostics;
 using System;
 using System.Threading;
 using System.ComponentModel;
-class Activity
+using System.Net.NetworkInformation;
+public class Activity
 {
     public string ActivityName{get; set;}
     public string Description{get; set;}
@@ -13,10 +14,16 @@ class Activity
         Description = description;
 
     }
-    public void StartActivity(int duration)
+    // public void StartActivity(int duration)
+    // {
+    //     DisplayWelcome(duration);
+    //     SimulateActivity(duration);
+    //     DisplayGoodBye(duration);
+    // }
+    public void RunActivity(int duration)
     {
         DisplayWelcome(duration);
-        SimulateActivity(duration);
+        ExecuteActivity(duration);
         DisplayGoodBye(duration);
     }
     
@@ -32,10 +39,9 @@ class Activity
     {
         Console.WriteLine($"Thanks for doing the {ActivityName} activity!");
         Console.WriteLine($"You completed this activity in {duration} seconds!");
-        ShowCountdown(10);
+        // ShowCountdown(10);
 
     }
-    // I was shown how to do this printing countdown by AI
     protected void ShowCountdown(int seconds)
     {
         for (int i = seconds; i>0; i--)
@@ -45,11 +51,11 @@ class Activity
         }
         Console.WriteLine("And Start!");
     }
-    protected void SimulateActivity(int duration)
+    
+    private void ExecuteActivity(int duration)
     {
-        // Base simulation logic
-        Console.WriteLine($"Simulating {ActivityName} activity for {duration} seconds...");
-        Thread.Sleep(duration * 1000); // Simulate activity duration
+        // i was taught throw new by AI
+        throw new NotImplementedException("Each activity must implement its own execution logic.");
     }
 
 }
