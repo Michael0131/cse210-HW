@@ -1,118 +1,38 @@
-using System;
-using System.Data.Common;
-using System.Runtime.InteropServices;
-
 class Program
 {
-    DateTime startTime = DateTime.Now;
-
-        static void Main(string[] args)
+    static void Main(string[] args)
     {
-        Console.WriteLine("Welcome to the Mindfulness Activities App!\n");
-
         while (true)
         {
-            // Display menu options
-            Console.WriteLine("Select an activity:");
-            Console.WriteLine("1. Breathing Exercise");
-            Console.WriteLine("2. Reflection Exercise");
-            Console.WriteLine("3. Listing Exercise");
-            Console.WriteLine("4. Exit");
+            Console.Clear();
+            Console.WriteLine("Choose an activity:");
+            Console.WriteLine("1. Breathing Activity");
+            Console.WriteLine("2. Reflection Activity");
+            Console.WriteLine("3. Listing Activity");
+            Console.WriteLine("4. Quit");
 
-            // Get user choice
-            Console.Write("Enter your choice (1-4): ");
-            if (!int.TryParse(Console.ReadLine(), out int choice))
-            {
-                Console.WriteLine("Invalid input. Please enter a number.");
-                Console.WriteLine();
-                continue;
-            }
+            int choice = int.Parse(Console.ReadLine());
 
-            // Perform action based on user choice
-            if (choice == 1)
+            switch (choice)
             {
-                PerformBreathingExercise();
-            }
-            else if (choice == 2)
-            {
-                int duration = GetDurationFromUser();
-                PerformReflectionExercise();
-            }
-            else if (choice == 3)
-            {
-                PerformListingExercise();
-            }
-            else if (choice == 4)
-            {
-                Console.Clear();
-                Console.WriteLine("Good Bye, see you next time!");
-                Thread.Sleep(1000);
-                return;
+                case 1:
+                    BreathingActivity breathingActivity = new BreathingActivity();
+                    breathingActivity.Run();
+                    break;
+                case 2:
+                    ReflectionActivity reflectionActivity = new ReflectionActivity();
+                    reflectionActivity.Run();
+                    break;
+                case 3:
+                    ListingActivity listingActivity = new ListingActivity();
+                    listingActivity.Run();
+                    break;
+                case 4:
+                    return;
+                default:
+                    Console.WriteLine("Invalid choice. Please try again.");
+                    break;
             }
         }
-
-
-        static void PerformBreathingExercise()
-            {
-                Console.WriteLine("\nYou've chosen the Breathing Exercise.");
-                int duration = GetDurationFromUser();
-                BreathingActivity breathingActivity = new BreathingActivity("Breathing Exercise", "Practice deep breathing to relax.");
-                breathingActivity.RunBreathingActivity(duration);
-            }
-
-    //     static void PerformReflectionExercise()
-    //     {
-    //         Console.WriteLine("\nYou've chosen the Reflection Exercise.");
-    //         int duration = GetDurationFromUser(); // Get duration from user input
-    //         string activityName = "Reflection Exercise"; // Set the activity name
-            
-
-
-    // }
-        static void PerformReflectionExercise()
-        {
-            Console.WriteLine("\nYou've chosen the Reflection Exercise.");
-            int duration = GetDurationFromUser();
-            ReflectionActivity reflectionActivity = new ReflectionActivity("Reflection Exercise", "Reflect on past experiences.");
-            reflectionActivity.RunReflectionActivity(duration);
-        }
-
-
-        static void PerformListingExercise()
-        {
-            Console.WriteLine("\nYou've chosen the Listing Exercise.");
-            int duration = GetDurationFromUser();
-            ListingActivity listingActivity = new ListingActivity("Listing Exercise", "List positive aspects of your life.");
-            listingActivity.RunListingActivity(duration);
-        }
-        static int GetDurationFromUser()
-        {
-            int duration = 0;
-        
-            Console.WriteLine("How long would you like to do this exercise? *seconds* ");
-            if (!int.TryParse(Console.ReadLine(), out duration) || duration <= 0)
-            {
-                Console.WriteLine("Error");
-                return 0;
-            }
-            
-            return duration;
-
-
-        }
-
-
-
-
-        // static int GetDurationFromUser()
-        // {
-        //     Console.Write("How long do you want to perform the activity? (Enter duration in seconds): ");
-        //     if (!int.TryParse(Console.ReadLine(), out int duration) || duration <= 0)
-        //     {
-        //         Console.WriteLine("Invalid input for duration. Please enter a valid number greater than 0.");
-        //         return 0;
-        //     }
-        //     return duration;
-        // }   
     }
 }

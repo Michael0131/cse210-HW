@@ -1,64 +1,52 @@
-using System.Diagnostics;
 using System;
+using System.Collections.Generic;
 using System.Threading;
-using System.ComponentModel;
-using System.Net.NetworkInformation;
-using System.Runtime.InteropServices.Marshalling;
-public class Activity
+
+class Activity
 {
-    public string ActivityName{get; set;}
-    public string Description{get; set;}
+    protected string name;
+    protected string description;
+    protected int duration;
 
-    protected Activity(string activityName, string description)
+    public Activity(string name, string description)
     {
-        ActivityName = activityName;
-        Description = description;
+        this.name = name;
+        this.description = description;
+    }
 
-    }
-    // public void StartActivity(int duration)
-    // {
-    //     DisplayWelcome(duration);
-    //     SimulateActivity(duration);
-    //     DisplayGoodBye(duration);
-    // }
-    public void RunActivity(int duration)
-    {
-        DisplayWelcome(duration);
-        ExecuteActivity(duration);
-        DisplayGoodBye(duration);
-    }
-    
-    protected void DisplayWelcome(int duration)
+    public void StartActivity()
     {
         Console.Clear();
-        Console.WriteLine($"Welcome to the {ActivityName} activity.");
-        Console.WriteLine(Description);
-        Console.WriteLine($"This activity will be {duration} seconds.");
+        Console.WriteLine($"Starting Activity: {name}");
+        Console.WriteLine(description);
+        Console.Write("Enter duration in seconds: ");
+        duration = int.Parse(Console.ReadLine());
+        Console.WriteLine("Prepare to begin...");
+        ShowSpinner(3);
     }
 
-    protected void DisplayGoodBye(int duration)
+    public void EndActivity()
     {
-        Console.Clear();
-        Console.WriteLine($"Thanks for doing the {ActivityName} activity!");
-        Console.WriteLine($"You completed this activity in {duration} seconds!");
-        // ShowCountdown(10);
-        Thread.Sleep(1000);
-        return;
-
+        Console.WriteLine("Good job!");
+        ShowSpinner(2);
+        Console.WriteLine($"You have completed the {name} activity for {duration} seconds.");
+        ShowSpinner(2);
     }
-    protected void ShowCountdown(int seconds)
+
+    protected void ShowSpinner(int seconds)
     {
-        for (int i = seconds; i>0; i--)
+        for (int i = 0; i < seconds; i++)
         {
-            Console.WriteLine($"Starting in {i}...");
-            Thread.Sleep(1000);
+            Console.Write("/");
+            Thread.Sleep(250);
+            Console.Write("\b-");
+            Thread.Sleep(250);
+            Console.Write("\b\\");
+            Thread.Sleep(250);
+            Console.Write("\b|");
+            Thread.Sleep(250);
+            Console.Write("\b");
         }
-        Console.WriteLine("And Start!");
-    }
-    
-    public void ExecuteActivity(int duration)
-    {
-        Console.WriteLine($"Simulating {ActivityName} activity for {duration} seconds...");
-        System.Threading.Thread.Sleep(duration * 1000); // Simulate activity duration
+        Console.WriteLine();
     }
 }
