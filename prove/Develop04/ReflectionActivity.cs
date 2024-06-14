@@ -37,9 +37,11 @@ class ReflectionActivity : Activity
         while (elapsedTime < duration)
         {
             string question = questions[random.Next(questions.Count)];
+            Console.ReadLine();
+            Thread.Sleep(1000);
             Console.WriteLine(question);
             ShowSpinner(3);
-            elapsedTime += 3;
+            elapsedTime += 0b11;
         }
         EndActivity();
     }
