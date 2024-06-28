@@ -12,11 +12,13 @@ class Program
                 switch (choice)
                 {
                     case "1":
-                        Console.Write("Enter goal name: ");
+                        Console.Write("Create New Goal: ");
                         string name = Console.ReadLine();
                         Console.Write("Enter points: ");
                         int points = int.Parse(Console.ReadLine());
-                        Console.Write("Enter goal type (simple/eternal/checklist): ");
+                        Console.WriteLine("The types of Goals are:");
+                        Console.WriteLine("\n1. Simple Goal\n2. Eternal Goal\n3. Checklist Goal");
+                        Console.Write("Enter goal type: ");
                         string goalType = Console.ReadLine();
 
                         Goal goal = null;
