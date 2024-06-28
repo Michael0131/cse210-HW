@@ -2,6 +2,7 @@ using System;
 
 class Program
     {
+<<<<<<< HEAD
         static void Main(string[] args)
         {
             EternalQuest quest = new EternalQuest();
@@ -84,4 +85,7 @@ class Program
                 }
             }
         }
+=======
+        Console.WriteLine("Hello Learning05 World!");
+>>>>>>> fcf020a9988ca6d70c934d3f176ed0ab7fb09095
     }
