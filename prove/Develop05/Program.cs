@@ -12,37 +12,26 @@ class Program
                 switch (choice)
                 {
                     case "1":
-                        // Console.Write("Create New Goal: ");
-                        // string name = Console.ReadLine();
-                        Console.WriteLine("The types of Goals are:");
-                        Console.WriteLine("\n1. Simple Goal\n2. Eternal Goal\n3. Checklist Goal");
-                        Console.Write("Enter goal type: ");
+                        var (name, description, points) = Goal.GetGoalInfo();
+                        Console.Write("Enter goal type (simple/eternal/checklist): ");
                         string goalType = Console.ReadLine();
-                        string name = goalType;
 
                         Goal goal = null;
                         if (goalType == "simple")
                         {
-                            Console.Write("Enter points: ");
-                        int points = int.Parse(Console.ReadLine());
-                            goal = new SimpleGoal(name, points);
+                            goal = new SimpleGoal(name, description, points);
                         }
                         else if (goalType == "eternal")
                         {
-                            Console.Write("Enter points: ");
-                            int points = int.Parse(Console.ReadLine());
-                            goal = new EternalGoal(name, points);
+                            goal = new EternalGoal(name, description, points);
                         }
                         else if (goalType == "checklist")
-                        
                         {
-                            Console.Write("Enter points: ");
-                            int points = int.Parse(Console.ReadLine());
                             Console.Write("Enter target count: ");
                             int targetCount = int.Parse(Console.ReadLine());
                             Console.Write("Enter bonus points: ");
                             int bonusPoints = int.Parse(Console.ReadLine());
-                            goal = new ChecklistGoal(name, points, targetCount, bonusPoints);
+                            goal = new ChecklistGoal(name, description, points, targetCount, bonusPoints);
                         }
                         else
                         {

@@ -49,15 +49,15 @@ class EternalQuest
                 {
                     if (goal is SimpleGoal)
                     {
-                        writer.WriteLine($"SimpleGoal,{goal.Name},{goal.Points},{goal.Completed}");
+                        writer.WriteLine($"SimpleGoal,{goal.Name},{goal.Description},{goal.Points},{goal.Completed}");
                     }
                     else if (goal is EternalGoal eternalGoal)
                     {
-                        writer.WriteLine($"EternalGoal,{goal.Name},{goal.Points},{eternalGoal.TimesCompleted}");
+                        writer.WriteLine($"EternalGoal,{goal.Name},{goal.Description},{goal.Points},{eternalGoal.TimesCompleted}");
                     }
                     else if (goal is ChecklistGoal checklistGoal)
                     {
-                        writer.WriteLine($"ChecklistGoal,{goal.Name},{goal.Points},{checklistGoal.CurrentCount},{checklistGoal.TargetCount},{checklistGoal.BonusPoints}");
+                        writer.WriteLine($"ChecklistGoal,{goal.Name},{goal.Description},{goal.Points},{checklistGoal.CurrentCount},{checklistGoal.TargetCount},{checklistGoal.BonusPoints}");
                     }
                 }
             }
@@ -77,9 +77,10 @@ class EternalQuest
                     if (goalType == "SimpleGoal")
                     {
                         string name = parts[1];
-                        int points = int.Parse(parts[2]);
-                        bool completed = bool.Parse(parts[3]);
-                        var goal = new SimpleGoal(name, points);
+                        string description = parts[2];
+                        int points = int.Parse(parts[3]);
+                        bool completed = bool.Parse(parts[4]);
+                        var goal = new SimpleGoal(name, description, points);
                         if (completed)
                         {
                             goal.MarkComplete();
@@ -89,9 +90,10 @@ class EternalQuest
                     else if (goalType == "EternalGoal")
                     {
                         string name = parts[1];
-                        int points = int.Parse(parts[2]);
-                        int timesCompleted = int.Parse(parts[3]);
-                        var goal = new EternalGoal(name, points);
+                        string description = parts[2];
+                        int points = int.Parse(parts[3]);
+                        int timesCompleted = int.Parse(parts[4]);
+                        var goal = new EternalGoal(name, description, points);
                         for (int i = 0; i < timesCompleted; i++)
                         {
                             goal.MarkComplete();
@@ -101,11 +103,12 @@ class EternalQuest
                     else if (goalType == "ChecklistGoal")
                     {
                         string name = parts[1];
-                        int points = int.Parse(parts[2]);
-                        int currentCount = int.Parse(parts[3]);
-                        int targetCount = int.Parse(parts[4]);
-                        int bonusPoints = int.Parse(parts[5]);
-                        var goal = new ChecklistGoal(name, points, targetCount, bonusPoints);
+                        string description = parts[2];
+                        int points = int.Parse(parts[3]);
+                        int currentCount = int.Parse(parts[4]);
+                        int targetCount = int.Parse(parts[5]);
+                        int bonusPoints = int.Parse(parts[6]);
+                        var goal = new ChecklistGoal(name, description, points, targetCount, bonusPoints);
                         for (int i = 0; i < currentCount; i++)
                         {
                             goal.MarkComplete();

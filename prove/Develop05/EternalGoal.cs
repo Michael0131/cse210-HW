@@ -2,7 +2,7 @@ class EternalGoal : Goal
     {
         public int TimesCompleted { get; private set; }
 
-        public EternalGoal(string name, int points) : base(name, points)
+        public EternalGoal(string name, string description, int points) : base(name, description, points)
         {
             TimesCompleted = 0;
         }
