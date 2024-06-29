@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 
 abstract class Goal
     {
+        // private static int counter = 0;
         public string Name { get; set; }
 
         public string GoalType { get; set; }
@@ -38,6 +39,13 @@ abstract class Goal
         public override string ToString()
         {
             string status = Completed ? "[X]" : "[ ]";
-            return $"{status} {Name} - {Points} points";
+            
+            return $" {status} {Name} ({Description}) - {Points} points";
+            
+    
         }
+        // public static void ResetCounter()
+        // {
+        //     counter = 0;
+        // }
     }

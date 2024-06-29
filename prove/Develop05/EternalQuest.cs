@@ -27,11 +27,13 @@ class EternalQuest
             }
         }
 
-        public void DisplayGoals()
+       public void DisplayGoals()
         {
+            int count = 1;
             foreach (var goal in goals)
             {
-                Console.WriteLine(goal);
+                Console.WriteLine($"{count}. {goal}");
+                count++;
             }
         }
 
