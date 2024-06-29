@@ -2,7 +2,8 @@ class EternalGoal : Goal
     {
         public int TimesCompleted { get; private set; }
 
-        public EternalGoal(string name, string description, int points) : base(name, description, points)
+        public EternalGoal(string name, string type, string description, int points) 
+            : base(name, type, description, points)
         {
             TimesCompleted = 0;
         }
@@ -19,6 +20,6 @@ class EternalGoal : Goal
 
         public override string ToString()
         {
-            return $"[E] {Name} - {Points} points each time, completed {TimesCompleted} times";
+            return $"[E] {Name} - {Description} - {Points} points each time, completed {TimesCompleted} times";
         }
     }

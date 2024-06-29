@@ -80,7 +80,7 @@ class EternalQuest
                         string description = parts[2];
                         int points = int.Parse(parts[3]);
                         bool completed = bool.Parse(parts[4]);
-                        var goal = new SimpleGoal(name, description, points);
+                        var goal = new SimpleGoal(name, goalType, description, points);
                         if (completed)
                         {
                             goal.MarkComplete();
@@ -93,7 +93,7 @@ class EternalQuest
                         string description = parts[2];
                         int points = int.Parse(parts[3]);
                         int timesCompleted = int.Parse(parts[4]);
-                        var goal = new EternalGoal(name, description, points);
+                        var goal = new EternalGoal(name, goalType, description, points);
                         for (int i = 0; i < timesCompleted; i++)
                         {
                             goal.MarkComplete();
@@ -108,7 +108,7 @@ class EternalQuest
                         int currentCount = int.Parse(parts[4]);
                         int targetCount = int.Parse(parts[5]);
                         int bonusPoints = int.Parse(parts[6]);
-                        var goal = new ChecklistGoal(name, description, points, targetCount, bonusPoints);
+                        var goal = new ChecklistGoal(name, goalType, description, points, targetCount, bonusPoints);
                         for (int i = 0; i < currentCount; i++)
                         {
                             goal.MarkComplete();
