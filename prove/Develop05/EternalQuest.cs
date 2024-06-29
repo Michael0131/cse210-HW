@@ -2,7 +2,7 @@ class EternalQuest
     {
         private List<Goal> goals;
         private int score;
-
+        private static readonly string DataDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Data");
         public EternalQuest()
         {
             goals = new List<Goal>();
@@ -13,7 +13,7 @@ class EternalQuest
         {
             goals.Add(goal);
         }
-
+    
         public void RecordEvent(string goalName)
         {
             foreach (var goal in goals)
@@ -26,16 +26,30 @@ class EternalQuest
                 }
             }
         }
-
-       public void DisplayGoals()
-        {
-            int count = 1;
-            foreach (var goal in goals)
+       public string GetDataDirectory()
             {
-                Console.WriteLine($"{count}. {goal}");
-                count++;
+                return DataDirectory;
             }
-        }
+        public void DisplayGoals()
+            {
+                int count = 1;
+                foreach (var goal in goals)
+                {
+                    Console.WriteLine($"{count}. {goal.ToString().Trim()}"); // Trim used to ensure no leading/trailing spaces i was shwon this by AI
+                    count++;
+                }
+            }
+    //    public void DisplayGoals()
+    //         {
+    //             // int count = 1;
+    //             // foreach (var goal in goals)
+    //             // {
+    //             //     Console.WriteLine($"Number: {count}"); // Debug output
+    //             //     Console.WriteLine($"Goal: {goal}");   // More debug output
+    //             //     Console.WriteLine($"{count}. {goal}");  // Final output
+    //             //     count++;
+    //             // }
+    //         }
 
         public void DisplayScore()
         {
@@ -43,25 +57,41 @@ class EternalQuest
         }
 
         public void SaveData(string filename)
-        {
-            using (StreamWriter writer = new StreamWriter(filename))
             {
-                writer.WriteLine(score);
-                foreach (var goal in goals)
+                string filePath = Path.Combine(DataDirectory, filename);
+                try
                 {
-                    if (goal is SimpleGoal)
+                    using (StreamWriter writer = new StreamWriter(filePath))
                     {
-                        writer.WriteLine($"SimpleGoal,{goal.Name},{goal.Description},{goal.Points},{goal.Completed}");
+                        writer.WriteLine(score);
+                        foreach (var goal in goals)
+                        {
+                            writer.WriteLine($"{goal.GoalType},{goal.Name},{goal.Description},{goal.Points},{goal.Completed}");
+                            // For checklist goals, make sure to also save target count and bonus points
+                            if (goal is ChecklistGoal checklistGoal)
+                            {
+                                writer.WriteLine($"{checklistGoal.TargetCount},{checklistGoal.BonusPoints}");
+                            }
+                        }
                     }
-                    else if (goal is EternalGoal eternalGoal)
-                    {
-                        writer.WriteLine($"EternalGoal,{goal.Name},{goal.Description},{goal.Points},{eternalGoal.TimesCompleted}");
-                    }
-                    else if (goal is ChecklistGoal checklistGoal)
-                    {
-                        writer.WriteLine($"ChecklistGoal,{goal.Name},{goal.Description},{goal.Points},{checklistGoal.CurrentCount},{checklistGoal.TargetCount},{checklistGoal.BonusPoints}");
-                    }
+                    Console.WriteLine("Data saved successfully to " + filePath);
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Failed to save data: " + e.Message);
+                }
+            }
+        public List<string> GetAvailableDataFiles()
+        {
+            try
+            {
+                var filePaths = Directory.GetFiles(DataDirectory, "*.txt");
+                return new List<string>(filePaths);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Failed to retrieve files: " + e.Message);
+                return new List<string>(); // Return an empty list on failure
             }
         }
 

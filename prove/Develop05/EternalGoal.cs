@@ -23,3 +23,4 @@ class EternalGoal : Goal
             return $"[E] {Name} - {Description} - {Points} points each time, completed {TimesCompleted} times";
         }
     }
+    

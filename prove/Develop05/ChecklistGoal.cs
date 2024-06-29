@@ -35,7 +35,6 @@ class ChecklistGoal : Goal
 
         public override string ToString()
         {
-            string status = Completed ? "[X]" : "[ ]";
-            return $"{status} {Name} - {Points} points each time, completed {CurrentCount}/{TargetCount} times, bonus {BonusPoints} points";
+            return $"[ ] {Name} - {Points} points each time, completed {CurrentCount}/{TargetCount} times, bonus {BonusPoints} points";
         }
     }
